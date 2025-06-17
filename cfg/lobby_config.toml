@@ -1,0 +1,20 @@
+# Coords of btns the bot tries to press.
+[lobby]
+trophies_region_crop = [880, 160, 1000, 220]
+brawlers_btn = [130, 450]
+select_btn = [100, 900]
+brawl_stars_icon = [50, 50] # BRAWL STARS ICON WHEN BRAWL STARS CRASHES. SET MANUALLY
+trophy_observer = [60, 50, 450, 175]
+[template_matching]
+# Regions which will be cropped and then template will be looked for
+# Example: powerpoint region will crop out an region in which powerpoints are visible inside the shop
+brawl_stars_icon = [10, 1, 990, 61]
+powerpoint = [1097, 28, 109, 87]
+brawler_menu_task = [1384, 28, 200, 127]
+close_popup = [1235, 70, 555, 278]
+lobby_menu = [1654, 31, 186, 105]
+thumbs_down = [1600, 80, 110, 110]
+brawl_pass_house = [1690, 35, 140, 100]
+go_back_arrow = [37, 22, 187, 126]
+star_drop = [764, 336, 360, 360]
+

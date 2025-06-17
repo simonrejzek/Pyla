@@ -1,0 +1,17 @@
+asyncio
+aiohttp
+customtkinter
+opencv-python
+numpy
+onnxruntime-directml
+pyautogui
+pygetwindow
+requests
+toml
+torch
+pillow
+discord.py
+easyocr
+shapely
+ultralytics
+bettercam
