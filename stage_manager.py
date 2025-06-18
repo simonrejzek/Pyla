@@ -122,11 +122,13 @@ class StageManager:
                       "now pause itself until closed.", value, push_current_brawler_till)
                 time.sleep(10 ** 5)
                 loop = asyncio.new_event_loop()
-                loop.run_until_complete(async_notify_user("bot_is_stuck"))
+                screenshot = self.Screenshot.take()
+                loop.run_until_complete(async_notify_user("bot_is_stuck", screenshot))
                 loop.close()
                 return
             loop = asyncio.new_event_loop()
-            loop.run_until_complete(async_notify_user(self.brawlers_pick_data[0]["brawler"]))
+            screenshot = self.Screenshot.take()
+            loop.run_until_complete(async_notify_user(self.brawlers_pick_data[0]["brawler"], screenshot))
             loop.close()
             self.brawlers_pick_data.pop(0)
             self.Trophy_observer.change_trophies(self.brawlers_pick_data[0]['trophies'])
@@ -200,7 +202,8 @@ class StageManager:
                             "Bot will"
                             "now pause itself until closed.")
                         loop = asyncio.new_event_loop()
-                        loop.run_until_complete(async_notify_user("completed"))
+                        screenshot = self.Screenshot.take()
+                        loop.run_until_complete(async_notify_user("completed", screenshot))
                         loop.close()
                         time.sleep(10 ** 5)
                         return

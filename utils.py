@@ -1,4 +1,5 @@
 import hashlib
+import io
 import os
 from io import BytesIO
 import ctypes
@@ -8,6 +9,7 @@ import requests
 import toml
 from PIL import Image
 from discord import Webhook
+import discord
 from easyocr import easyocr
 import cv2
 import numpy as np
@@ -223,7 +225,8 @@ def check_version():
         else:
             print("Error, couldn't get the version, please check your internet connection or go ask for help in the discord.")
 
-async def async_notify_user(message_type: str | None = None) -> None:
+
+async def async_notify_user(message_type: str | None = None, screenshot: Image = None) -> None:
     user_id = load_toml_as_dict("cfg/general_config.toml")["discord_id"]
     webhook_url = load_toml_as_dict("cfg/general_config.toml")["personal_webhook"]
     if not webhook_url:
@@ -240,8 +243,6 @@ async def async_notify_user(message_type: str | None = None) -> None:
         status_line = f"Pyla completed brawler goal for {message_type}!"
         ping = f"<@{user_id}>"
 
-    # Get a screenshot
-    screenshot = pyautogui.screenshot()
     buffer = io.BytesIO()
     screenshot.save(buffer, format="PNG")
     buffer.seek(0)
