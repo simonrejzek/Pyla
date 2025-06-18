@@ -231,11 +231,14 @@ async def async_notify_user(message_type: str | None = None) -> None:
         return
 
     if message_type == "completed":
-        status_line = f"<@{user_id}> Pyla Bot has completed all its targets!"
+        status_line = f"Pyla has completed all its targets!"
+        ping = f"<@{user_id}>"
     elif message_type == "bot_is_stuck":
-        status_line = f"<@{user_id}>, your bot is currently stuck!"
+        status_line = f"Your bot is currently stuck!"
+        ping = f"<@{user_id}>"
     else:
-        status_line = f"<@{user_id}>, completed brawler goal for {message_type}!"
+        status_line = f"Pyla completed brawler goal for {message_type}!"
+        ping = f"<@{user_id}>"
 
     # Get a screenshot
     screenshot = pyautogui.screenshot()
@@ -252,7 +255,7 @@ async def async_notify_user(message_type: str | None = None) -> None:
     async with aiohttp.ClientSession() as session:
         webhook = Webhook.from_url(webhook_url, session=session)
         print("sending webhook")
-        await webhook.send(embed=embed, file=file, username="Pyla notifier")
+        await webhook.send(embed=embed, file=file, username="Pyla notifier", content=ping)
         
 def get_discord_link():
     if api_base_url == "localhost":
