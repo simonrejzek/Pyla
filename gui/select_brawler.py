@@ -74,7 +74,7 @@ class SelectBrawler:
                       font=("Comic sans MS", int(25 * scale_factor)), border_color=self.colors['cherry red'],
                       border_width=int(2 * scale_factor)).place(x=int(585 * scale_factor),
                                                                 y=int(800 * scale_factor))
-        print("WARNING MESSAGES SHOULD BE DONE")
+        print("WARNING MESSAGES SHOULD BE DONE") 
         self.app.mainloop()
 
     def set_farm_type(self, value):
