@@ -88,14 +88,13 @@ def pyla_main(data):
                 loaded_models.append(folder_path + name)
             return loaded_models
 
-        @staticmethod
-        def restart_brawl_stars():
+        def restart_brawl_stars(self):
             loop = asyncio.new_event_loop()
-            screenshot = Screenshot.take()
-            loop.run_until_complete(async_notify_user("bot_is_stuck"), screenshot)
+            loop.run_until_complete(async_notify_user("bot_is_stuck"))
+            print("\nBot got stuck. Webhook sent. Pausing...")
             loop.close()
-            print("Bot got stuck. User notified. Pause until closed.")
-            time.sleep(99 * 999)
+            input("Bot is paused. Press Enter to unpause and continue...")
+            print("Resuming bot...\n")
 
         def manage_time_tasks(self, frame):
             if self.Time_management.state_check():
