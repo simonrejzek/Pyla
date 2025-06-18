@@ -92,7 +92,7 @@ def pyla_main(data):
         def restart_brawl_stars():
             loop = asyncio.new_event_loop()
             screenshot = Screenshot.take()
-            loop.run_until_complete(async_notify_user("bot_is_stuck"), screenshot)
+            loop.run_until_complete(async_notify_user("bot_is_stuck", screenshot))
             loop.close()
             print("Bot got stuck. User notified. Pause until closed.")
             time.sleep(99 * 999)
