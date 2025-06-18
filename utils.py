@@ -1,4 +1,5 @@
 import hashlib
+import io
 import os
 from io import BytesIO
 import ctypes
@@ -8,6 +9,7 @@ import requests
 import toml
 from PIL import Image
 from discord import Webhook
+import discord
 from easyocr import easyocr
 import cv2
 import numpy as np
@@ -223,25 +225,39 @@ def check_version():
         else:
             print("Error, couldn't get the version, please check your internet connection or go ask for help in the discord.")
 
-async def async_notify_user(message_type=None):
-    user_id = load_toml_as_dict("cfg/general_config.toml")['discord_id']
-    user_webhook = load_toml_as_dict("cfg/general_config.toml")['personal_webhook']
-    if not user_webhook:
-        print("Couldn't notify : no webhook configured.")
+
+async def async_notify_user(message_type: str | None = None, screenshot: Image = None) -> None:
+    user_id = load_toml_as_dict("cfg/general_config.toml")["discord_id"]
+    webhook_url = load_toml_as_dict("cfg/general_config.toml")["personal_webhook"]
+    if not webhook_url:
+        print("Couldn't notify: no webhook configured.")
         return
+
+    if message_type == "completed":
+        status_line = f"Pyla has completed all its targets!"
+        ping = f"<@{user_id}>"
+    elif message_type == "bot_is_stuck":
+        status_line = f"Your bot is currently stuck!"
+        ping = f"<@{user_id}>"
+    else:
+        status_line = f"Pyla completed brawler goal for {message_type}!"
+        ping = f"<@{user_id}>"
+
+    buffer = io.BytesIO()
+    screenshot.save(buffer, format="PNG")
+    buffer.seek(0)
+    file = discord.File(buffer, filename="screenshot.png")
+
+    # Build the embed that holds both the text and the screenshot
+    embed = discord.Embed(description=status_line)
+    embed.set_image(url="attachment://screenshot.png")   # show the attached screenshot
+
+    # Send the embed
     async with aiohttp.ClientSession() as session:
-        webhook = Webhook.from_url(user_webhook, session=session)
-
-        # Modify this section based on your message_type logic
-        if message_type == 'completed':
-            message = f"<@{user_id}> Pyla Bot has completed all its targets!"
-        elif message_type == 'bot_is_stuck':
-            message = f"<@{user_id}>, your bot is currently stuck!"
-        else:
-            message = f"<@{user_id}>, completed brawler goal for {message_type}!"
+        webhook = Webhook.from_url(webhook_url, session=session)
         print("sending webhook")
-        await webhook.send(content=message, username="Pyla notifier")
-
+        await webhook.send(embed=embed, file=file, username="Pyla notifier", content=ping)
+        
 def get_discord_link():
     if api_base_url == "localhost":
         return "https://discord.gg/xUusk3fw4A"
