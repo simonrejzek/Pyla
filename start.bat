@@ -1,2 +1,2 @@
-pyla_main.exe
+python main.py
 pause
